@@ -59,16 +59,17 @@ const NewOrderForm = ({ isOpen, closeModal, updatePendingOrders }) => {
 
             <div className="flex items-center">
               <button
-                className={`mr-4 px-3 py-1 rounded ${
-                  role === "buyer" ? "bg-blue-500 text-white" : "bg-gray-300 text-gray-700"
+                className={`mr-4 px-3 py-1 rounded font-semibold ${
+                  role === "buyer" ? "bg-blue-100 text-green-600" : "bg-gray-100  text-green-600"
                 }`}
                 onClick={() => setRole("buyer")}
               >
                 Buyer
               </button>
               <button
-                className={`px-3 py-1 rounded ${
-                  role === "seller" ? "bg-blue-500 text-white" : "bg-gray-300 text-gray-700"
+                className={`px-3 py-1 rounded  font-semibold ${
+                  role === "seller" ? "bg-blue-100 text-red-600" : "bg-gray-100 text-red-600"
+
                 }`}
                 onClick={() => setRole("seller")}
               >

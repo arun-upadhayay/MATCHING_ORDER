@@ -3,39 +3,38 @@ import axios from "axios";
 import config from "../config/config";
 import Loader from "./Loader"; // Import Loader component
 
+
 const PendingOrdersTable = () => {
   const [pendingBuyer, setPendingBuyer] = useState([]);
   const [pendingSeller, setPendingSeller] = useState([]);
-  const [loading, setLoading] = useState(true); // Initialize loading state to true
+  const [loading, setLoading] = useState(true); 
 
   useEffect(() => {
     fetchOrders();
-  }, [pendingBuyer,pendingSeller]);
+
+    // Set interval to fetch orders every 1 seconds 
+    const interval = setInterval(fetchOrders, 1000);
+
+    // Cleanup function to clear interval when component unmounts
+    return () => clearInterval(interval);
+  }, []);
 
   const fetchOrders = async () => {
     try {
-      const PendignBuyersResponse = await axios.get(
-        `${config.apiUrl}/orders/getAllBuyer`
-      );
-      const PendignSellerResponse = await axios.get(
-        `${config.apiUrl}/orders/getAllSeller`
-      );
-      setPendingBuyer(PendignBuyersResponse.data);
-      setPendingSeller(PendignSellerResponse.data);
-      setLoading(false); // Set loading to false when data is fetched
-
-
-
+      const pendingBuyersResponse = await axios.get(`${config.apiUrl}/orders/getAllBuyer`);
+      const pendingSellersResponse = await axios.get(`${config.apiUrl}/orders/getAllSeller`);
+      
+      setPendingBuyer(pendingBuyersResponse.data);
+      setPendingSeller(pendingSellersResponse.data);
+      setLoading(false);
     } catch (error) {
-      console.error("Error fetching completed orders:", error);
+      console.error("Error fetching pending orders:", error);
     }
   };
 
-  
-
   return (
     <div>
-      {loading ? ( // Conditional rendering of Loader component while data is being fetched
+      {loading ? (
         <Loader />
       ) : (
         <div className="overflow-hidden border border-gray-200 rounded-lg shadow-md">
@@ -62,23 +61,19 @@ const PendingOrdersTable = () => {
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
                 {pendingBuyer.map((buyerOrder, index) => {
-                  // Get the corresponding seller order for the current buyer order
-                  const correspondingSellerOrder = pendingSeller[index] || {}; // Ensure correspondingSellerOrder exists or use an empty object
+                  const correspondingSellerOrder = pendingSeller[index] || {}; 
   
                   return (
                     <tr
                       key={index}
                       className={index % 2 === 0 ? "bg-gray-50" : "bg-white"}
                     >
-                      {/* Buyer data */}
                       <td className="px-6 py-4 whitespace-nowrap">
                         {buyerOrder.buyer_qty || "-"}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         {buyerOrder.buyer_price || "-"}
                       </td>
-  
-                      {/* Seller data */}
                       <td className="px-6 py-4 whitespace-nowrap">
                         {correspondingSellerOrder.seller_price || "-"}
                       </td>
@@ -88,7 +83,6 @@ const PendingOrdersTable = () => {
                     </tr>
                   );
                 })}
-                {/* If there are more seller entries than buyer entries, display remaining seller entries */}
                 {pendingSeller
                   .slice(pendingBuyer.length)
                   .map((sellerOrder, index) => (
@@ -96,11 +90,8 @@ const PendingOrdersTable = () => {
                       key={pendingBuyer.length + index}
                       className={index % 2 === 0 ? "bg-gray-50" : "bg-white"}
                     >
-                      {/* Empty cells for buyer data */}
                       <td className="px-6 py-4 whitespace-nowrap">-</td>
                       <td className="px-6 py-4 whitespace-nowrap">-</td>
-  
-                      {/* Seller data */}
                       <td className="px-6 py-4 whitespace-nowrap">
                         {sellerOrder.seller_price || "-"}
                       </td>
@@ -116,7 +107,6 @@ const PendingOrdersTable = () => {
       )}
     </div>
   );
-  
 };
 
 export default PendingOrdersTable;
