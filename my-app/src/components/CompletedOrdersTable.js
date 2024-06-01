@@ -3,8 +3,6 @@ import React, { useEffect, useState } from "react";
 import config from "../config/config";
 
 const CompletedOrdersTable = () => {
- 
-
   const [completedOrders, setCompletedOrders] = useState([]);
 
   useEffect(() => {
@@ -13,21 +11,24 @@ const CompletedOrdersTable = () => {
         const completedOrderResponse = await axios.get(
           `${config.apiUrl}/orders/completed`
         );
-        console.log('Completed order response:', completedOrderResponse.data);
-       
-        if (completedOrderResponse.data.completedMatchedOrders) {
-          setCompletedOrders(completedOrderResponse.data.completedMatchedOrders);
-        }
+        setCompletedOrders(completedOrderResponse.data);
       } catch (error) {
         console.error('Error fetching completed orders:', error);
         // Handle error, such as displaying an error message to the user
       }
     };
 
+    // Fetch data initially
     fetchCompletedOrders();
-  }, []); // Empty dependency array to fetch completed orders only once on component mount
 
-  console.log('Completed Orders:', completedOrders);
+    // Set up an interval to fetch data periodically
+    const interval = setInterval(fetchCompletedOrders, 5000); // Fetch every 5 seconds
+
+    // Clear the interval on component unmount
+    return () => clearInterval(interval);
+  }, [config.apiUrl]);
+ 
+  console.log('Completed Orders: data kya h ', completedOrders);
   return (
     <div>
     <div className="overflow-y-auto border border-gray-200 rounded-lg shadow-md h-[20rem]">
