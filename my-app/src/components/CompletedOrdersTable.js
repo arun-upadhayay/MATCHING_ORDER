@@ -26,7 +26,7 @@ const CompletedOrdersTable = () => {
 
     // Clear the interval on component unmount
     return () => clearInterval(interval);
-  }, [config.apiUrl]);
+  }, []);
  
   console.log('Completed Orders: data kya h ', completedOrders);
   return (

@@ -1,5 +1,5 @@
 const config = {
-  apiUrl: process.env.REACT_APP_API_URL || 'http://localhost:4000/api/v1',
+  apiUrl: 'https://matching-order-smyn.onrender.com' || 'http://localhost:4000/api/v1',
   };
   
   export default config;
