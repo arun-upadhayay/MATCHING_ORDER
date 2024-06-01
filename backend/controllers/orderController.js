@@ -38,7 +38,7 @@ export const addNewBuyerOrder = async (req, res) => {
     if (matchedSellerOrder) {
       const sellerQty = matchedSellerOrder.seller_qty;
 
-      if (sellerQty === buyer_qty) {
+      if (sellerQty == buyer_qty) {
         await CompletedOrder.create({ price: buyer_price, qty: buyer_qty });
         await SellerOrder.findByIdAndDelete(matchedSellerOrder._id);
         await BuyerOrder.findByIdAndDelete(newOrder._id);
@@ -87,7 +87,7 @@ export const addNewSellerOrder = async (req, res) => {
     if (matchedBuyerOrder) {
       const buyerQty = matchedBuyerOrder.buyer_qty;
 
-      if (seller_qty === buyerQty) {
+      if (seller_qty == buyerQty) {
         await CompletedOrder.create({ price: seller_price, qty: buyerQty });
         await BuyerOrder.findByIdAndDelete(matchedBuyerOrder._id);
         await SellerOrder.findByIdAndDelete(newOrder._id);
