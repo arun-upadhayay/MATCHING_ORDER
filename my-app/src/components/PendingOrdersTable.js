@@ -12,8 +12,8 @@ const PendingOrdersTable = () => {
   useEffect(() => {
     fetchOrders();
 
-    // Set interval to fetch orders every 1 seconds 
-    const interval = setInterval(fetchOrders, 1000);
+    // Set interval to fetch orders every 5 seconds 
+    const interval = setInterval(fetchOrders, 5000);
 
     // Cleanup function to clear interval when component unmounts
     return () => clearInterval(interval);

@@ -14,8 +14,14 @@ const NewOrderForm = ({ isOpen, closeModal, updatePendingOrders }) => {
   const handleSubmit = async (e) => {
     setLoading(true);
     try {
-      const orderData = role === "buyer" ? { buyer_qty, buyer_price } : { seller_qty, seller_price };
-      const endpoint = role === "buyer" ? `${config.apiUrl}/orders/addNewBuyer` : `${config.apiUrl}/orders/addNewSeller`;
+      const orderData =
+        role === "buyer"
+          ? { buyer_qty, buyer_price }
+          : { seller_qty, seller_price };
+      const endpoint =
+        role === "buyer"
+          ? `${config.apiUrl}/orders/addNewBuyer`
+          : `${config.apiUrl}/orders/addNewSeller`;
       const res = await axios.post(endpoint, orderData);
       console.log("response:", res);
       // Call the updatePendingOrders function passed from the parent component
@@ -60,7 +66,9 @@ const NewOrderForm = ({ isOpen, closeModal, updatePendingOrders }) => {
             <div className="flex items-center">
               <button
                 className={`mr-4 px-3 py-1 rounded font-semibold ${
-                  role === "buyer" ? "bg-blue-100 text-green-600" : "bg-gray-100  text-green-600"
+                  role === "buyer"
+                    ? "bg-blue-100 text-green-600"
+                    : "bg-gray-100  text-green-600"
                 }`}
                 onClick={() => setRole("buyer")}
               >
@@ -68,8 +76,9 @@ const NewOrderForm = ({ isOpen, closeModal, updatePendingOrders }) => {
               </button>
               <button
                 className={`px-3 py-1 rounded  font-semibold ${
-                  role === "seller" ? "bg-blue-100 text-red-600" : "bg-gray-100 text-red-600"
-
+                  role === "seller"
+                    ? "bg-blue-100 text-red-600"
+                    : "bg-gray-100 text-red-600"
                 }`}
                 onClick={() => setRole("seller")}
               >
@@ -80,7 +89,9 @@ const NewOrderForm = ({ isOpen, closeModal, updatePendingOrders }) => {
             {role === "buyer" && (
               <>
                 <div className="mb-4">
-                  <label className="block text-gray-700 font-medium mb-2">Buyer Qty</label>
+                  <label className="block text-gray-700 font-medium mb-2">
+                    Buyer Qty
+                  </label>
                   <input
                     type="number"
                     value={buyer_qty}
@@ -90,7 +101,9 @@ const NewOrderForm = ({ isOpen, closeModal, updatePendingOrders }) => {
                   />
                 </div>
                 <div className="mb-4">
-                  <label className="block text-gray-700 font-medium mb-2">Buyer Price</label>
+                  <label className="block text-gray-700 font-medium mb-2">
+                    Buyer Price
+                  </label>
                   <input
                     type="number"
                     value={buyer_price}
@@ -105,7 +118,9 @@ const NewOrderForm = ({ isOpen, closeModal, updatePendingOrders }) => {
             {role === "seller" && (
               <>
                 <div className="mb-4">
-                  <label className="block text-gray-700 font-medium mb-2">Seller Qty</label>
+                  <label className="block text-gray-700 font-medium mb-2">
+                    Seller Qty
+                  </label>
                   <input
                     type="number"
                     value={seller_qty}
@@ -116,7 +131,9 @@ const NewOrderForm = ({ isOpen, closeModal, updatePendingOrders }) => {
                 </div>
 
                 <div className="mb-4">
-                  <label className="block text-gray-700 font-medium mb-2">Seller Price</label>
+                  <label className="block text-gray-700 font-medium mb-2">
+                    Seller Price
+                  </label>
                   <input
                     type="number"
                     value={seller_price}
